@@ -1,0 +1,19 @@
+---
+title: "Einstichproben-Inferenz am Datensatz UsingR::normtemp"
+subtitle: "Ist 37 °C die normale Körpertemperatur?"
+author: "Timo Bertolini"
+date: last-modified
+lang: de
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+---
+
+```{r}
+#| label: setup
+
+library(dplyr)
+library(ggplot2)
+```

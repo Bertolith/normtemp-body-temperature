@@ -4,6 +4,7 @@
 # Quarto
 /.quarto/
 report_files/
+report.html
 
 # History files
 .Rhistory
