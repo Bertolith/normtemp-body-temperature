@@ -4,15 +4,20 @@ subtitle: "Ist 37 °C die normale Körpertemperatur?"
 author: "Timo Bertolini"
 date: last-modified
 lang: de
+bibliography: references.bib
 format:
   html:
     toc: true
     number-sections: true
     code-fold: true
+    embed-resources: true
+crossref:
+  sec-prefix: Abschnitt
 ---
 
 ```{r}
 #| label: setup
+#| include: false
 
 library(dplyr)
 library(ggplot2)
