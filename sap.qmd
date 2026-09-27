@@ -2,28 +2,72 @@
 
 ## Hintergrund und Zielsetzung
 
+In seinem Werk *Das Verhalten der Eigenwärme in Krankheiten* proklamierte Carl R. A. @wunderlich1868 unter anderem, dass die durchschnittliche Körpertemperatur gesunder Erwachsener bei $37\,^\circ\mathrm{C}$ (oder $98.6\,^\circ\mathrm{F}$) liegt. In einer Studie überprüften die Autoren diese Angabe anhand sekundärer Auswertungen von Messungen aus Impfstoffstudien [@mackowiak1992]. Sie fanden eine mittlere Temperatur von $36.8\,^\circ\mathrm{C}$ (oder $98.2\,^\circ\mathrm{F}$), die signifikant unter $37\,^\circ\mathrm{C}$ lag.
+
+Wunderlichs Referenzwert wird anhand einer Rekonstruktion der Daten aus @mackowiak1992 erneut untersucht. Die Zielfrage ist, ob die mittlere Körpertemperatur gesunder Erwachsener von $37\,^\circ\mathrm{C}$ abweicht.
+
+Dem Autor ist das Ergebnis der Originalstudie aus dem Abstract bereits bekannt. Eine verblindete Analyse ist daher nicht möglich. Die Vorabfestlegung in diesem SAP dient zu Übungszwecken sowie dazu, das Vorgehen transparent und nachvollziehbar zu machen.
+
 ## Datenquelle und Population
+
+Die Population aus der Originalstudie setzt sich aus $700$ Beobachtungen an $148$ gesunden Erwachsenen zwischen $18$ und $40$ Jahren zusammen, die an Impfstoffstudien teilnahmen der *University of Maryland School of Medicine* teilnahmen [@mackowiak1992].
+
+Der benutzte Datensatz *UsingR::normtemp* [@usingR] entstammt ursprünglich dem Artikel *What's Normal? -- Temperature, Gender, and Heart Rate* [@shoemaker1996]. Der Autor des Artikels rekonstruierte die Daten mit $130$ Beobachtungen, um das Histogramm aus @mackowiak1992 möglichst getreu abzubilden. Schlussfolgerungen auf die Population gesunder Erwachsener sind anhand dieser Daten daher nur eingeschränkt möglich. Zudem weist Shoemakers Datensatz eine gleichmäßige Geschlechterverteilung auf. In der Originalstudie fällt das Verhältnis von $122$ Männern zu $26$ Frauen deutlich einseitiger gewichtet aus [@shoemaker1996]. 
+
+Die Analysepopulation umfasst alle vollständigen Beobachtungen mit einem Temperaturwert innerhalb des in @sec-fehler festgelegten Plausibilitätsbereichs. 
 
 ## Variablen und Endpunkte
 
-## Hypothesen
+Jede Beobachtung umfasst drei Variablen: Körpertemperatur (*temperature*) in $^\circ\mathrm{F}$, Geschlecht (*gender*), wobei zwischen männlich ($1$) und weiblich ($2$) unterschieden wird und Herzfrequenz (*hr*), welche in der Analyse keinen Gebrauch findet. Primärer Endpunkt ist die Körpertemperatur in $^\circ\mathrm{C}$. Dazu werden die gemessenen Werte anhand der Formel $T_C = (T_F - 32) / 1.8$ von $^\circ\mathrm{F}$ in $^\circ\mathrm{C}$ umgerechnet, wobei $T_C$ und $T_F$ die Temperatur in den jeweiligen Einheiten bezeichnen. Zielparameter sind der Populationsmittelwert $\mu$ (primär) und die Populationsvarianz $\sigma^2$ (sekundär).
 
-## Klinisch relevanter Unterschied
+## Hypothesen {#sec-hypothesen}
+
+Getestet wird die Hypothese $H_0: \mu = 37\,^\circ\mathrm{C}$ gegen $H_1: \mu \neq 37\,^\circ\mathrm{C}$, wobei $\mu$ die mittlere Körpertemperatur der Population gesunder Erwachsener beschreibt. Die Alternativhypothese ist zweiseitig formuliert, da beide Fälle von klinischer Relevanz sind. Das Signifikanzniveau wird als $\alpha = 0.05$ festgelegt.
+
+## Klinisch relevanter Unterschied {#sec-unterschied}
+
+Für die Körpertemperatur existiert kein etablierter klinisch relevanter Unterschied. Als Schwellenwert wird $\delta = 0.1\,^\circ\mathrm{C}$ gewählt. Dieser Wert entspricht der Anzeigeauflösung klinischer Thermometer und damit dem kleinsten Unterschied, der an einer einzelnen Person angezeigt werden kann [@finicareThermo]. Eine beobachtete Abweichung gilt als mindestens so groß wie $\delta$, wenn das $95$%-Konfidenzintervall für $\mu$ vollständig außerhalb von $37\,^\circ\mathrm{C}\pm\delta$ liegt. Die klinische Bewertung erfolgt in der Diskussion.
 
 ## Statistische Methoden
 
-### Deskriptive Statistik
+Als Referenzwerk für die statistischen Methoden sei auf @rosner2016 verwiesen.
+
+### Deskriptive Statistik {#sec-deskription}
+
+Für die Körpertemperatur (in $^\circ\mathrm{C}$) werden die Anzahl an Personen ($n$), der empirische Mittelwert ($\bar{x}$), die Stichprobenstandardabweichung ($s$), der Median, der IQR sowie Minimum und Maximum, je für die Gesamtstichprobe und stratifiziert nach Geschlecht berichtet. Dazu kommen die Geschlechterverteilung sowie Histogramm, Boxplot und Stem-and-Leaf-Plot der Temperatur.
 
 ### Prüfung der Annahmen
 
-### Primäranalyse
+Die Messwerte werden als unabhängig angenommen, da der Datensatz einen Temperaturwert pro Person enthält. Die Verteilung der Einzelwerte wird anhand des Histogramms aus @sec-deskription beurteilt. Für den t-Test ist bei $n = 130$ aufgrund des zentralen Grenzwertsatzes nur eine annähernde Normalverteilung des empirischen Mittelwerts $\bar{x}$ erforderlich, daher bleibt er unabhängig von der Beurteilung die Primäranalyse. Das in @sec-secundaeranalyse beschriebene $\chi^2$-basierte Konfidenzintervall für $\sigma^2$ setzt dagegen eine exakte Normalverteilung der Einzelwerte voraus. Es wird daher unabhängig von der Beurteilung durch ein Bootstrap-Konfidenzintervall ergänzt, siehe @sec-sensitivitaet.
 
-### Sekundäranalysen
+### Primäranalyse {#sec-primaeranalyse}
 
-### Sensitivitätsanalysen
+Die Primäranalyse umfasst einen zweiseitigen Einstichproben-t-Test anhand der Hypothesen aus @sec-hypothesen. Berichtet wird der empirische Mittelwert $\bar{x}$ sowie das $95$%-Konfidenzintervall für $\mu$ und der p-Wert des t-Tests.
 
-## Fehlende Werte und Ausreißer
+### Sekundäranalysen {#sec-secundaeranalyse}
+
+Sekundär wird das $\chi^2$-basierte $95$%-Konfidenzintervall für die Populationsvarianz $\sigma^2$ sowie die Standardabweichung $\sigma$ in $^\circ\mathrm{C}$ berichtet. Die Power des t-Tests für den in @sec-unterschied berichteten Schwellenwert bei $n = 130$ wird angegeben. Dazu wird die empirische Standardabweichung $s$ herangezogen, da keine unabhängige Schätzung für $\sigma$ vorhanden ist. Zusätzlich wird die notwendige Fallzahl für eine Power von $80$% bei zweiseitigem $\alpha = 0.05$ ebenfalls anhand von $s$ als nachträgliche Illustration berechnet.
+
+### Sensitivitätsanalysen {#sec-sensitivitaet}
+
+Die Primäranalyse wird einerseits unter Ausschluss der in @sec-fehler identifizierten plausiblen Ausreißer wiederholt. Das Ergebnis gilt als robust, wenn die Testentscheidung die gleiche bleibt und sich $\bar{x}$ um weniger als $\delta$ verändert.
+
+Andererseits wird die Primäranalyse stratifiziert nach Geschlecht wiederholt. Da die Power des t-Tests unter Stratifizierung sinkt und potentiell ein tatsächlicher geschlechtsspezifischer Unterschied vorliegt, wird nur geprüft, ob beide Gruppenschätzer auf derselben Seite von $37\,^\circ\mathrm{C}$ wie der Schätzer der Primäranalyse liegen.
+
+Zusätzlich zum $\chi^2$-basierten Intervall wird ein $95$%-Perzentil-Bootstrap-Konfidenzintervall für $\sigma^2$ und $\sigma$ berechnet. Dazu werden $N = 10\,000$ Bootstrap-Stichproben mit Zurücklegen aus der Analysepopulation gezogen und jeweils die Stichprobenvarianz $s^2$ berechnet. Für die Reproduzierbarkeit wird der Startwert des Zufallszahlengenerators auf 20260927 gesetzt. Beide Intervalle werden gemeinsam berichtet.
+
+## Fehlende Werte und Ausreißer {#sec-fehler}
+
+Die Analyse erfolgt mit allen vollständigen Beobachtungen, wobei vollständig für diese Analyse so verstanden wird, dass die Variablen Körpertemperatur und Geschlecht interpretierbare Werte besitzen. Fehlende Werte werden gezählt und berichtet.
+
+Als Plausibilitätsbereich wird $35\,^\circ\mathrm{C}$ bis $42\,^\circ\mathrm{C}$ festgelegt. Bei gesunden Personen sind Werte außerhalb dieses Bereichs nicht plausibel [@docCheckFieber; @docCheckTemp]. Diese Werte werden aus der Analysepopulation ausgeschlossen und berichtet.
+
+Weiters folgt der Autor der Boxplot-Konvention, die Werte außerhalb eines Bereichs von $Q_1 - 1.5 \cdot \mathrm{IQR}$ bis $Q_3 + 1.5 \cdot \mathrm{IQR}$ als plausible Ausreißer zu behandeln, wobei die Quartile nach der Definition von @rosner2016 berechnet werden. Solche Werte verbleiben in der Analyse und werden nur für die Sensitivitätsanalyse exkludiert.
 
 ## Multiplizität
 
+Konfirmatorisch ist ausschließlich der in @sec-primaeranalyse festgelegte Test. Alle weiteren Analysen sind explorativ. Ihre p-Werte werden deskriptiv interpretiert, weshalb keine Anpassung für multiples Testen erfolgt.
+
 ## Software
+
+Die Analyse erfolgt in *R* und der Report ist gerendert mit *Quarto*. Die Paketversionen sind mit *renv* fixiert.
