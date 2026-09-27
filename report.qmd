@@ -17,3 +17,5 @@ format:
 library(dplyr)
 library(ggplot2)
 ```
+
+{{< include sap.qmd >}}

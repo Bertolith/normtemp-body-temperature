@@ -1,0 +1,29 @@
+# Statistischer Analyseplan (SAP)
+
+## Hintergrund und Zielsetzung
+
+## Datenquelle und Population
+
+## Variablen und Endpunkte
+
+## Hypothesen
+
+## Klinisch relevanter Unterschied
+
+## Statistische Methoden
+
+### Deskriptive Statistik
+
+### Prüfung der Annahmen
+
+### Primäranalyse
+
+### Sekundäranalysen
+
+### Sensitivitätsanalysen
+
+## Fehlende Werte und Ausreißer
+
+## Multiplizität
+
+## Software
